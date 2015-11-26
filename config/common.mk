@@ -4,7 +4,7 @@ ifneq ($(TARGET_SCREEN_WIDTH) $(TARGET_SCREEN_HEIGHT),$(space))
 #check device aspect ratio (tablet or phone) to import full screen bootanimation where appropriate
 ifeq ($(TARGET_SCREEN_ASPECT_RATIO),16by9)
 # Set bootanimation size to width to differentiate between tablet and phone devices for aspect ratio
-TARGET_BOOTANIMATION_SIZE := $(TARGET_SCREEN_WIDTH); \
+TARGET_BOOTANIMATION_SIZE := $(TARGET_SCREEN_WIDTH);
 else
 # determine the smaller dimension
 TARGET_BOOTANIMATION_SIZE := $(shell \
