@@ -1,6 +1,11 @@
 PRODUCT_BRAND ?= cyanogenmod
 
 ifneq ($(TARGET_SCREEN_WIDTH) $(TARGET_SCREEN_HEIGHT),$(space))
+#check device aspect ratio (tablet or phone) to import full screen bootanimation where appropriate
+ifeq ($(TARGET_SCREEN_ASPECT_RATIO),16by9)
+# Set bootanimation size to width to differentiate between tablet and phone devices for aspect ratio
+TARGET_BOOTANIMATION_SIZE := $(TARGET_SCREEN_WIDTH); \
+else
 # determine the smaller dimension
 TARGET_BOOTANIMATION_SIZE := $(shell \
   if [ $(TARGET_SCREEN_WIDTH) -lt $(TARGET_SCREEN_HEIGHT) ]; then \
@@ -28,6 +33,9 @@ $(foreach size,$(bootanimation_sizes), $(call check_and_set_bootanimation,$(size
 
 ifeq ($(TARGET_BOOTANIMATION_HALF_RES),true)
 PRODUCT_BOOTANIMATION := vendor/cm/prebuilt/common/bootanimation/halfres/$(TARGET_BOOTANIMATION_NAME).zip
+endif
+ifeq ($(TARGET_SCREEN_ASPECT_RATIO),16by9)
+PRODUCT_BOOTANIMATION := vendor/cm/prebuilt/common/bootanimation/16by9/$(TARGET_BOOTANIMATION_NAME).zip
 else
 PRODUCT_BOOTANIMATION := vendor/cm/prebuilt/common/bootanimation/$(TARGET_BOOTANIMATION_NAME).zip
 endif
